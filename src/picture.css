@@ -1,0 +1,31 @@
+.imageContainer{
+    position: relative;
+}
+
+.picture{
+    width: 90%;
+    height: 90%;
+}
+
+.arrow {
+    position: absolute;
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    font-size: 50px;
+    opacity: .3;
+}
+
+.arrow:hover{
+    opacity: 1;
+}
+
+.Left{
+    top: 50%;
+    left:5px;
+}
+
+.Right{
+    top: 50%;
+    right:5px;
+}
