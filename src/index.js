@@ -1,15 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import ThemeObject from './theme/index'
 
 const GlobalStyle = createGlobalStyle`
 body {
-
   margin: 0;
-  font-family:  Koho, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: ${props => props.theme.fontFamily.general};
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,8 +21,8 @@ code {
 
 
 ReactDOM.render(
-  <>
+  <ThemeProvider theme={ ThemeObject }>
   < GlobalStyle />
   <App />
-  </>, 
+  </ThemeProvider>, 
   document.getElementById("root"));
