@@ -8,7 +8,13 @@ import styled from 'styled-components'
 styled Components
 =============================
 */
-
+const Explanation = styled.p`
+    font-weight: 500;
+    font-size 18px;
+    text-align: justify;
+    line-height: 22px;
+    letter-spacing 3px;
+`
 const ImageContainer= styled.div`
     position: relative;
 `
@@ -20,7 +26,7 @@ const Arrow= styled.div`
     font-size: 50px;
     opacity: .3;
     top: 50%;
-    ${props => props.type === 'right'? "right: 5px": "left: 5px"}
+    ${props => props.type === 'right'? "right: 5px": "left: 5px"};
     &:hover{
         opacity: 1;
     }
@@ -32,6 +38,16 @@ const PictureStyle = styled.img`
 const Frame = styled.iframe`
     width: 90%;
     height: 90%;
+`
+const ImageTitle = styled.div`
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-around;
+    font-variant: small-caps;
+    &p{
+        font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+    }
 `
 
 /* 
@@ -70,14 +86,16 @@ const Picture = ({ dayPlusOne, dayMinusOne, selectedDate, searchResult }) => {
 
     return(
         <>
+        <ImageTitle>
         <h2>{POTD.title}</h2>
+        <p>{POTD.date}</p>
+        </ImageTitle>
         <ImageContainer>
             {POTD.date !== (new Date(todayEastern).toISOString().slice(0,10)) && <Arrow type="right" onClick={() => {dayPlusOne()}}>&gt;</Arrow>}
             {POTD.media_type === "video"?<Frame src={POTD.url} title={POTD.title}></Frame>:<PictureStyle src={POTD.url} alt={POTD.title}></PictureStyle>}
             <Arrow onClick={() => {dayMinusOne()}}>&lt;</Arrow>
-
         </ImageContainer>
-        <p>{POTD.explanation}</p>
+        <Explanation>{POTD.explanation}</Explanation>
         </>
     )
 }
