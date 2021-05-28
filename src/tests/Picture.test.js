@@ -1,7 +1,9 @@
-import React, { useState, useEffect} from 'react'
-import { BASE_URL, API_KEY } from '../constants/constants'
-import axios from "axios"
+import React from 'react'
+import '@testing-library/jest-dom/extend-expect'
+import { render } from '@testing-library/react'
+import Picture from '../components/Picture'
 import styled from 'styled-components'
+
 
 /* 
 =============================
@@ -50,45 +52,31 @@ const ImageTitle = styled.div`
     }
 `
 
+
 /* 
 =============================
-component
+Test
 =============================
 */
 
-const Picture = ({ dayPlusOne, dayMinusOne, selectedDate, searchResult }) => {
-    // compute today date (East US)
-    const now = new Date().getTime()
-    const todayHoursUTC = now % (24 * 3600000)
-    const todayEastern = now - (todayHoursUTC + (2 * 24 * 3600000))
+test('renders content', () => {
+    const MockHandler = jest.fn();
+    const picture = {
+        dayPlusOne: MockHandler,
+        dayMinusOne: MockHandler,
+        selectedDate: Date.now(),
+        searchResult: true,
+  }
 
-    //declare slice of state for the picture of the day object
-    const [POTD, setPOTD] = useState({})
-        
-    //call Api when selectedDate changes
-    useEffect(() => {
-        // the date provided to the API should be YYYY-MM-DD format
-        let apiDate = new Date(selectedDate).toISOString().slice(0,10)
+  const component = render(
+    <Picture picture={picture} />
+  )
 
-        //if the user searched a specific entry selectedDate should already be in the good format
-        if(searchResult){
-            apiDate = selectedDate
-        }
-        //create url
-        const address = `${BASE_URL}?date=${apiDate}&api_key=${API_KEY}`
-        //api call
-        axios
-        .get(address)
-        .then((response) => { setPOTD(response.data) })
-        .catch(err => console.log(err))
-    },[selectedDate]
-    )
-
-    return(
-        <>
+  expect(component.container).toHaveTextContent(
+    <>
         <ImageTitle>
-        <h2>{POTD.title}</h2>
-        <p>{POTD.date}</p>
+            <h2>{POTD.title}</h2>
+            <p>{POTD.date}</p>
         </ImageTitle>
         <ImageContainer>
             {POTD.date !== (new Date(todayEastern).toISOString().slice(0,10)) && <Arrow type="right" onClick={() => {dayPlusOne()}}>&gt;</Arrow>}
@@ -97,7 +85,5 @@ const Picture = ({ dayPlusOne, dayMinusOne, selectedDate, searchResult }) => {
         </ImageContainer>
         <Explanation>{POTD.explanation}</Explanation>
         </>
-    )
-}
-
-export default Picture
+  )
+})
